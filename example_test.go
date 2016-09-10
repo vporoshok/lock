@@ -1,12 +1,13 @@
 package lock
 
 import (
-	"context"
 	"time"
+
+	"golang.org/x/net/context"
 )
 
 func ExampleLock_Race() {
-	l := NewLock()
+	l := Lock{}
 	l.Lock()
 
 	go func() {

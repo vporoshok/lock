@@ -6,7 +6,7 @@ import (
 )
 
 func BenchmarkLock(b *testing.B) {
-	l := NewLock()
+	l := Lock{}
 	for i := 0; i < b.N; i++ {
 		l.Lock()
 		l.Unlock()

@@ -1,14 +1,15 @@
 package lock
 
 import (
-	"context"
 	"sync"
 	"testing"
 	"time"
+
+	"golang.org/x/net/context"
 )
 
 func TestLock_LockUnlock(t *testing.T) {
-	l := NewLock()
+	l := Lock{}
 
 	res := make([]int, 0, 100)
 
@@ -50,7 +51,7 @@ func TestLock_LockUnlock(t *testing.T) {
 }
 
 func TestLock_Race(t *testing.T) {
-	l := NewLock()
+	l := Lock{}
 	l.Lock()
 
 	go func() {
@@ -71,7 +72,7 @@ func TestLock_Race(t *testing.T) {
 }
 
 func TestLock_Locked(t *testing.T) {
-	l := NewLock()
+	l := Lock{}
 	if l.Locked() {
 		t.Error("New Lock should be unlocked")
 	}
@@ -86,7 +87,7 @@ func TestLock_Locked(t *testing.T) {
 }
 
 func TestLock_TryLock(t *testing.T) {
-	l := NewLock()
+	l := Lock{}
 	if !l.TryLock() {
 		t.Error("New Lock should be unlocked")
 	}
