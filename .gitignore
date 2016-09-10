@@ -1,3 +1,9 @@
+# OS and IDE
+.DS-Store
+*.sublime-*
+/.idea
+/.vscode
+
 # Compiled Object files, Static and Dynamic libs (Shared Objects)
 *.o
 *.a
