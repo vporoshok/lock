@@ -6,15 +6,15 @@ import (
 	"sync"
 )
 
-// Lock is a `sync.Locker` with battaries.
+// Lock is a sync.Locker with batteries.
 //
-// It is slowest sync.mutex approx 2 times but more powerfull
+// It is slowest sync.Mutex approx 2 times but more powerful
 type Lock struct {
 	m sync.Mutex
 	b bool
 }
 
-// Similar `sync.Locker.Lock`
+// Lock locks l. If the l is already in use, the calling goroutine blocks until the lock is available.
 func (l *Lock) Lock() {
 	for {
 		l.m.Lock()
@@ -29,14 +29,21 @@ func (l *Lock) Lock() {
 	}
 }
 
-// Similar to `sync.Locker.Unlock`
+// Unlock unlocks l. It is a run-time error if l is not locked on entry to Unlock.
+//
+// A locked Lock is not associated with a particular goroutine.
+// It is allowed for one goroutine to lock a Mutex and then arrange for another goroutine to unlock it.
 func (l *Lock) Unlock() {
 	l.m.Lock()
+	if !l.b {
+		panic("lock: unlock of unlocked lock")
+	}
 	l.b = false
 	l.m.Unlock()
 }
 
-// Wait a lock.
+// Race wait a lock.
+//
 // If input chan will close early stop waiting and return false.
 // Return true if locked before channel close.
 func (l *Lock) Race(in <-chan struct{}) bool {
@@ -58,17 +65,15 @@ func (l *Lock) Race(in <-chan struct{}) bool {
 			runtime.Gosched()
 		}
 	}
-
-	return true
 }
 
-// Return true if lock is locked or false otherwise
+// Locked return true if l is locked or false otherwise
 func (l *Lock) Locked() bool {
 
 	return l.b
 }
 
-// Try to get lock. Return false if lock is locked other process
+// TryLock is try to get lock. Return false if lock is locked
 func (l *Lock) TryLock() bool {
 	l.m.Lock()
 	if !l.b {

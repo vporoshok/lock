@@ -17,9 +17,8 @@ func TestLock_LockUnlock(t *testing.T) {
 
 	for i := 0; i < 10; i++ {
 		a := i
+		wg.Add(1)
 		go func() {
-
-			wg.Add(1)
 
 			defer wg.Done()
 
