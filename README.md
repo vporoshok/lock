@@ -11,7 +11,7 @@ In one of my work projects I had the need to know the state of the mutex. To my 
   
 **Warning!** This library slower standard realization approx 2 times
  
-**Thank you!** The idea of the implementation was stolen at https://github.com/joshlf/sync
+**Thank you!** The idea of the implementation was stolen at [https://github.com/joshlf/sync](https://github.com/joshlf/sync)
 
 ## Requirements
 
@@ -25,7 +25,7 @@ Implement `Lock` with mutex protected bool. Locking use infinite loop with check
 
 Use the `go` tool:
 ```sh
-$ go get github.com/twinj/uuid
+$ go get github.com/vporoshok/lock
 ```
 
 ## Support
